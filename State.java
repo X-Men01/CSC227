@@ -1,3 +1,3 @@
 public enum State {
-    New, Ready, Running, Waiting, Terminated
+    New, Running, Waiting, Terminated, Ready
 }
