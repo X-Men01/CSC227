@@ -9,7 +9,7 @@ public class Process {
     
     
 
-    public Process(int processId, int memoryRequired, int burstTime) {
+    public Process(int processId, int burstTime, int memoryRequired)  {
 	    this.ProcessID = processId;
 	    this.Memory = memoryRequired;
 	    this.BurstTime = burstTime;
