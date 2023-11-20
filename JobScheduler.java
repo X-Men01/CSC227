@@ -9,6 +9,7 @@ public class JobScheduler extends Thread {
     static int nOfTotalJobs = 0;
 
     // Read process information from file in a separate thread
+    int lineNum = 0 ;
     public void run() {
 
         try {
@@ -17,16 +18,19 @@ public class JobScheduler extends Thread {
             try {
                 while (scanner.hasNextLine()) {
                     String line = scanner.nextLine();
-                    line = line.replaceAll("[^0-9]", " ");
-                    String[] parts = line.split(" ");
-
-                    int processId = Integer.parseInt(parts[0]);
-                    int burstTime = Integer.parseInt(parts[1]);
-                    int memoryRequired = Integer.parseInt(parts[2]);
-
-                    synchronized (jobQueue) {
-                        jobQueue.add(new Process(processId, burstTime, memoryRequired));
-                        nOfTotalJobs++;
+					lineNum++;
+					
+					if (lineNum % 2 == 0) {
+						line = line.replaceAll("[^0-9]", " ");
+						 String[] parts = line.split("  ");
+						 int processId = Integer.parseInt(parts[0]);
+						 int burstTime = Integer.parseInt(parts[1]);
+						 int memoryRequired = Integer.parseInt(parts[2]);
+                        
+							synchronized (jobQueue) {
+								jobQueue.add(new Process(processId, burstTime, memoryRequired));
+								nOfTotalJobs++;
+							}
                     }
                 }
             } catch (NumberFormatException e) {
