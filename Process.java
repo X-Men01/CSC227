@@ -1,72 +1,79 @@
 public class Process {
-    private int ProcessID , BurstTime , Memory ;
 
-    private int arrivalTime, turnAround, waitTime, terminationTime;
-    
-    
+	private int ProcessID, BurstTime, Memory;
+	private int arrivalTime, turnAround, waitTime, terminationTime;
+	private States state;
 
-    private State state;
-    
-    
+	public Process(int processId, int burstTime, int memoryRequired) {
+		this.ProcessID = processId;
+		this.Memory = memoryRequired;
+		this.BurstTime = burstTime;
 
-    public Process(int processId, int burstTime, int memoryRequired)  {
-	    this.ProcessID = processId;
-	    this.Memory = memoryRequired;
-	    this.BurstTime = burstTime;
-	    
-        this.state = State.Waiting;
-	  }
+		this.state = States.Waiting;
+	}
 
-      public int getMemory() {
-        return Memory;
-    }
-    public int getBurstTime() {
-        return BurstTime;
-    }
-    public int getProcessID() {
-        return ProcessID;
-    }
+	public int getProcessID() {
+		return ProcessID;
+	}
 
-    public State getState() {
-        return state;
-    }
+	public void setProcessID(int processID) {
+		ProcessID = processID;
+	}
 
-    public void setState(State state) {
-        this.state = state;
-    }
+	public int getBurstTime() {
+		return BurstTime;
+	}
 
-    public int getArrivalTime() {
-        return arrivalTime;
-    }
+	public void setBurstTime(int burstTime) {
+		BurstTime = burstTime;
+	}
 
-    public void setArrivalTime(int arrivalTime) {
-        this.arrivalTime = arrivalTime;
-    }
+	public int getMemory() {
+		return Memory;
+	}
 
-    public int getTurnAround() {
-        return turnAround;
-    }
+	public void setMemory(int memory) {
+		Memory = memory;
+	}
 
-    public void setTurnAround(int turnAround) {
-        this.turnAround = turnAround;
-    }
+	public int getArrivalTime() {
+		return arrivalTime;
+	}
 
-    public int getWaitTime() {
-        return waitTime;
-    }
+	public void setArrivalTime(int arrivalTime) {
+		this.arrivalTime = arrivalTime;
+	}
 
-    public void setWaitTime(int waitTime) {
-        this.waitTime = waitTime;
-    }
+	public int getTurnAround() {
+		return turnAround;
+	}
 
-    public int getTerminationTime() {
-        return terminationTime;
-    }
+	public void setTurnAround(int turnAround) {
+		this.turnAround = turnAround;
+	}
 
-    public void setTerminationTime(int terminationTime) {
-        this.terminationTime = terminationTime;
-    }
+	public int getWaitTime() {
+		return waitTime;
+	}
 
+	public void setWaitTime(int waitTime) {
+		this.waitTime = waitTime;
+	}
 
+	public int getTerminationTime() {
+		return terminationTime;
+	}
+
+	public void setTerminationTime(int terminationTime) {
+		this.terminationTime = terminationTime;
+	}
+
+	public States getState() {
+		return state;
+	}
+
+	public void setState(States state) {
+		this.state = state;
+	}
 
 }
