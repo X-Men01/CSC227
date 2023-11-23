@@ -1,5 +1,7 @@
-
+System.out.println("Process" + p.getProcessID() + "( State: " + p.getState() + ", Terminated at: "
+					+ p.getTerminationTime() +" )");
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 	static JobScheduler Thread1 = new JobScheduler();
@@ -30,6 +32,12 @@ public class Main {
 			FCFS f = new FCFS(CPUScheduler.readyQueue);
 			break;
 		case 2:
+			try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			SJF s = new SJF(CPUScheduler.readyQueue);
 			break;
 		case 3:
