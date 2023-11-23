@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class CPUScheduler extends Thread {
+	
 	static ArrayList<Process> readyQueue = new ArrayList<>();
 	// Main memory size will be 8192
 	static Memory memory = new Memory(8192);
@@ -21,31 +22,31 @@ public class CPUScheduler extends Thread {
 							"Process number: " + process.getProcessID() + " cannot be scheduled due to memory size");
 					continue;
 				}
-				// This will loop will not terminate until it finds a space for the process(wait
-				// until one of the processes in the memory terminates)
-				while (!Memory.allocateMemory(process.getMemory())) {
+				
+				// This while loop will not terminate until it finds a space for the process
+				// (wait until one of the processes in the memory terminates)
+				while (!Memory.allocateMemory(process.getMemory() )) {
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
 						throw new RuntimeException(e);
 					}
                 }
-				// If it finds a space we will add it to the ready queue and switch it state to
-				// Ready
+				
+				// If it finds a space we will add it to the ready queue and switch it state to Ready
 				JobScheduler.jobQueue.remove(0);
-				readyQueue.add(process);
-				// process.setState(State.Ready);
+				readyQueue.add(process);	
+				process.setState(States.Ready);
 
-				process.setArrivalTime(FCFS.Time); 
+				process.setArrivalTime( Algorithm.getTime() ); 
 
 				System.out.println("Process" + process.getProcessID() + " State: " + process.getState() + " Arrived at: "
 						+ process.getArrivalTime());
 
 			}
-			// This block is used to let this method run concurrently rather than in
-			// parallel
+			// This block is used to let this method run concurrently rather than in parallel
 			try {
-				Thread.sleep(10);
+				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
@@ -53,6 +54,7 @@ public class CPUScheduler extends Thread {
 		}
 
 	}
+	
 
 }
 
