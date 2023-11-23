@@ -1,50 +1,58 @@
 import java.util.ArrayList;
 
-public class SJF {
-    static ArrayList<Process> finalQueue = new ArrayList<>();
+public class SJF extends Algorithm{
 
-    static ArrayList<GranttChart> granttChart = new ArrayList<>();
+	public SJF(ArrayList<Process> readyQueue) {
 
-    static int Time = 0;
+		readyQueue.sort((p1, p2) -> p1.getBurstTime() - p2.getBurstTime());
 
-    public SJF(ArrayList<Process> readyQueue) {
-        readyQueue.sort((p1, p2) -> p1.getBurstTime() - p2.getBurstTime());
-        System.out.println("----------------------------------Running SJF----------------------------------");
-        if (readyQueue.isEmpty()) {
-            System.out.println("\n\n\t\treadyQueue is Empty\n\n");
-            return;
-        }
-        while (!JobScheduler.jobQueue.isEmpty()) {
+		 
+		if (readyQueue.isEmpty()) {
+			System.out.println("\n\n\t\treadyQueue is Empty\n\n");
+			return;
+		}
+		do {
 
-            if (!readyQueue.isEmpty()) {
-                Process p = readyQueue.remove(0);
+			if (!readyQueue.isEmpty()) {
+				sjf(readyQueue);
+			}
 
-                Time += p.getBurstTime();
-                p.setTurnAround(Time - p.getArrivalTime());
-                p.setWaitTime((p.getTurnAround() - p.getBurstTime()) + p.getWaitTime());
-                p.setTerminationTime(Time);
+			else {
 
-                p.setState(State.Terminated);
+				try {
+					Main.Thread2.join(100);
+					readyQueue.sort((p1, p2) -> p1.getBurstTime() - p2.getBurstTime());
+				} catch (InterruptedException e) {
 
-                Memory.releaseMemory(p.getMemory());
+					e.printStackTrace();
+				}
 
-            }
+			}
+		} while (!JobScheduler.jobQueue.isEmpty());
+		loadResults();
+	}
 
-            else {
+	public static void sjf(ArrayList<Process> readyQueue) {
+		while (!readyQueue.isEmpty()) {
+			Process p = readyQueue.remove(0);
+			Time += p.getBurstTime();
+			p.setTurnAround(Time - p.getArrivalTime());
+			p.setWaitTime((p.getTurnAround() - p.getBurstTime()) + p.getWaitTime());
+			p.setTerminationTime(Time);
 
-                try {
-                    Main.Thread2.join(1000);
-                    readyQueue.sort((p1, p2) -> p1.getBurstTime() - p2.getBurstTime());
-                } catch (InterruptedException e) {
+			GranttChart cG = new GranttChart("P" + p.getProcessID(), Time - p.getBurstTime(), Time);
+			granttChart.add(cG);
+			finalQueue.add(p);
+			p.setState(States.Terminated);
 
-                    e.printStackTrace();
-                }
+			System.out.println("Process " + p.getProcessID() + " State: " + p.getState() + " Terminated at: "
+					+ p.getTerminationTime());
 
-            }
-        }
+			Memory.releaseMemory(p.getMemory());
+		}
+	}
 
-    }
-    public static void sort(ArrayList<Process> readyQueue) {
+	public static void sort(ArrayList<Process> readyQueue) {
 		readyQueue.sort((p1, p2) -> p1.getBurstTime() - p2.getBurstTime());
 	}
 
